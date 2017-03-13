@@ -10,7 +10,7 @@
 %   email:   martinez.staps@gmail.com
 %   Website: https://github.com/romainmartinez
 %___________________________
-%Ceci est un test__________________________________________________
+%__________________________________________________
 
 clear ; close all; clc
 

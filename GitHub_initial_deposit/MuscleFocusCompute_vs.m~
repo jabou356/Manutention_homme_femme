@@ -44,14 +44,14 @@ MVTdurationKine(itrial)=Data(itrial).end-Data(itrial).start;
 
 %% Load muscle path data
     
-LineOfAction = importdata([Path.MDresultpath DATA(itrial).trialname '_MuscleForceDirection_vectors.sto']);
-MuscleAttachment = importdata([Path.MDresultpath DATA(itrial).trialname '_MuscleForceDirection_attachments.sto']);
+Data(itrial).LineOfAction = importdata([Path.MDresultpath DATA(itrial).trialname '_MuscleForceDirection_vectors.sto']);
+Data(itrial).MuscleAttachment = importdata([Path.MDresultpath DATA(itrial).trialname '_MuscleForceDirection_attachments.sto']);
 
 %% Compute leverArm 
-for imuscle = 1:length(Muscle)
+for i = 1:length(Muscle)
     
-    DataColumn(:,imuscle)=find(contains(MuscleAttachment.colheaders,Muscle(imuscle))&contains(MuscleAttachment.colheaders,Body));
-    parallel(:,3*imuscle-2:3*imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle)); %Vector parallel to muscle attachment and Origin (lever arm)
+    DataColumn(:,i)=find(contains(data(itrial).MuscleAttachment.colheaders,Muscle(i))&contains(MuscleAttachment.colheaders,Body));
+    parallel(:,3*i-2:3*i)=MuscleAttachment.data(:,DataColumn(:,i)); %Vector parallel to muscle attachment and Origin (lever arm)
     
 end
 
