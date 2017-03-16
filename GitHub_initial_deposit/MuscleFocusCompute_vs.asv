@@ -52,7 +52,7 @@ for itrial=1:length(Data)-1
 MVTdurationKine=Data(itrial).end-Data(itrial).start;
 
 %% Load muscle path data
-if exist([Path.MDresultpath Data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto'],'file')==2    
+    
 LineOfAction = importdata([Path.MDresultpath Data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto']);
 MuscleAttachment = importdata([Path.MDresultpath Data(itrial).trialname '.mot_MuscleForceDirection_attachments.sto']);
 
@@ -83,13 +83,12 @@ end
  Data(itrial).dInt(:,:,:)=interp1(1:MVTdurationKine+1,Data(itrial).d(startKine:stopKine,:,:),1:(MVTdurationKine)/999:MVTdurationKine+1);
  
  clear LineOfAction MuscleAttachment EffForceDir verDir parallel temp DataColumn MVTdurationKine
-
+end
 Alias.dIntMuscle=Muscle;
 MyModel.disownAllComponents();
 
 save([Path.exportPath Alias.sujet{1,isujet} '.mat'],'Data','Alias')
-end
-end
+
 clear MyModel MyJointSet MyGHJoint GHJoint
 end
 %% EMG
