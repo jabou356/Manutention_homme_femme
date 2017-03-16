@@ -29,10 +29,20 @@ GenericPath
 
 %% Nom des sujets
 Alias.sujet = sujets_validesJB(Path.ServerAddressE);
-
+load([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Jason\data\GroupData\dataEMG.mat']);
 for isujet=2%1:length(Alias.sujet)
     SubjectPath
+    name=Alias.sujet{isujet};
+    name=name(end-3:end);
     
+    isID=0;
+    i=0;
+    while isID==0 
+    i=i+1;
+    isID=strcmpi(sujet(i).name,name);
+    end
+    GroupID=i;
+   
     MyModel=Model([Path.exportPath Alias.sujet{isujet} 'scaledNewMKR.osim']);
     MyJointSet=MyModel.getJointSet;
     MyGHJoint=MyJointSet.get('preshoulder1');
@@ -88,10 +98,12 @@ end
 Alias.dIntMuscle=Muscle;
 MyModel.disownAllComponents();
 
-%save([Path.exportPath Alias.sujet{1,isujet} '.mat'],'Data','Alias')
+save([Path.exportPath Alias.sujet{1,isujet} '.mat'],'Data','Alias')
 
+for icondition=1:
+sujet(GroupID).data.data
 
-clear MyModel MyJointSet MyGHJoint GHJoint
+clear MyModel MyJointSet MyGHJoint GHJoint Data Alias
 end
 %% EMG
 % 
