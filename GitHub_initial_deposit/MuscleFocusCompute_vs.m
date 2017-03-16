@@ -28,7 +28,7 @@ import org.opensim.modeling.*
 GenericPath
 
 %% Nom des sujets
-Alias.sujet = sujets_validesJB;
+Alias.sujet = sujets_validesJB(Path.ServerAddressE);
 
 for isujet=2%1:length(Alias.sujet)
     SubjectPath
