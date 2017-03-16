@@ -9,7 +9,7 @@ clear all; clc;
 % Body and muscles of interest. As in Blache 2015, I targeted the lines of
 % action of muscles best matching the position of the electrodes
 Body={'humerus'};
-Muscle={'DELT3','DELT2','DELT1','INFSP','SUPSP', 'SUBSP',...
+Muscle={'DELT3','DELT2','DELT1','INFSP','SUPSP', 'SUBSC',...
     'LAT1','PECM3' };
 
 
@@ -47,7 +47,7 @@ load([Path.exportPath Alias.sujet{1,isujet} '.mat']);
 
 
 %% Obtenir les onset et offset de force (beginning and end of trial)
-for itrial=1:length(Data)-1
+for itrial=1%:length(Data)-1
   
 MVTdurationKine=Data(itrial).end-Data(itrial).start;
 
@@ -79,17 +79,17 @@ for imuscle = 1:length(Muscle)
     
 end
 
-
- Data(itrial).dInt(:,:,:)=interp1(1:MVTdurationKine+1,Data(itrial).d(startKine:stopKine,:,:),1:(MVTdurationKine)/999:MVTdurationKine+1);
+ Data(itrial).dInt(:,:,:)=interp1(1:MVTdurationKine+1,Data(itrial).d(Data(itrial).start:Data(itrial).end,:,:),1:(MVTdurationKine)/999:MVTdurationKine+1);
  
  clear LineOfAction MuscleAttachment EffForceDir verDir parallel temp DataColumn MVTdurationKine
-
+end
+end
 Alias.dIntMuscle=Muscle;
 MyModel.disownAllComponents();
 
-save([Path.exportPath Alias.sujet{1,isujet} '.mat'],'Data','Alias')
-end
-end
+%save([Path.exportPath Alias.sujet{1,isujet} '.mat'],'Data','Alias')
+
+
 clear MyModel MyJointSet MyGHJoint GHJoint
 end
 %% EMG
@@ -125,23 +125,23 @@ end
 % 
 % 
 % % 
-% for i=1:648
+% for i=1:583
 % clf
 % plot3([0 0],[0 5], [0 0],'k','linewidth',3)
 % hold on
-% plot3([0 d(i,1,1)],[0 d(i,2,1)], [0 d(i,3,1)],'r')
+% plot3([0 Data(itrial).d(i,1,1)],[0 Data(itrial).d(i,2,1)], [0 Data(itrial).d(i,3,1)],'r')
 % plot3([0 vecDir(i,1,1)],[0 vecDir(i,2,1)], [0 vecDir(i,3,1)],'k:','linewidth',2)
-% plot3([0 d(i,1,2)],[0 d(i,2,2)], [0 d(i,3,2)],'b')
+% plot3([0 Data(itrial).d(i,1,2)],[0 Data(itrial).d(i,2,2)], [0 Data(itrial).d(i,3,2)],'b')
 % plot3([0 vecDir(i,1,2)],[0 vecDir(i,2,2)], [0 vecDir(i,3,2)],'k:','linewidth',2)
-% plot3([0 d(i,1,3)],[0 d(i,2,3)], [0 d(i,3,3)],'g')
+% plot3([0 Data(itrial).d(i,1,3)],[0 Data(itrial).d(i,2,3)], [0 Data(itrial).d(i,3,3)],'g')
 % plot3([0 vecDir(i,1,3)],[0 vecDir(i,2,3)], [0 vecDir(i,3,3)],'k:','linewidth',2)
-% plot3([0 d(i,1,4)],[0 d(i,2,4)], [0 d(i,3,4)],'m')
+% plot3([0 Data(itrial).d(i,1,4)],[0 Data(itrial).d(i,2,4)], [0 Data(itrial).d(i,3,4)],'m')
 % plot3([0 vecDir(i,1,4)],[0 vecDir(i,2,4)], [0 vecDir(i,3,4)],'k:','linewidth',2)
-% plot3([0 d(i,1,5)],[0 d(i,2,5)], [0 d(i,3,5)],'c')
+% plot3([0 Data(itrial).d(i,1,5)],[0 Data(itrial).d(i,2,5)], [0 Data(itrial).d(i,3,5)],'c')
 % plot3([0 vecDir(i,1,5)],[0 vecDir(i,2,5)], [0 vecDir(i,3,5)],'k:','linewidth',2)
 % 
 % view([0,5,0])
 % drawnow
 % end
-%     
+% %     
 % 
