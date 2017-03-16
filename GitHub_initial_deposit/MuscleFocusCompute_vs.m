@@ -62,7 +62,8 @@ for imuscle = 1:length(Muscle)
     DataColumn(:,imuscle)=find(contains(MuscleAttachment.colheaders,Muscle(imuscle))&contains(MuscleAttachment.colheaders,Body));
     parallel(:,3*imuscle-2:3*imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle))-GHJoint; %Vector parallel to muscle attachment and Origin (lever arm)
     
-    vecDir(:,:,imuscle)=LineOfAction.data(:,DataColumn(:,imuscle));
+    Data(trial).vecDir(:,:,imuscle)=LineOfAction.data(:,DataColumn(:,imuscle));
+    Data(trial).attach(:,:,imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle));
     
     % Gives axis around which the muscle rotate the humerus
     EffForceDir(:,:,imuscle)=cross(vecDir(:,:,imuscle),parallel(:,3*imuscle-2:3*imuscle));
