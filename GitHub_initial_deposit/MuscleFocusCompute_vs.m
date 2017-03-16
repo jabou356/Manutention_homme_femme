@@ -57,7 +57,7 @@ load([Path.exportPath Alias.sujet{1,isujet} '.mat']);
 
 
 %% Obtenir les onset et offset de force (beginning and end of trial)
-for itrial=1%:length(Data)-1
+for itrial=1:length(Data)-1
   
 MVTdurationKine=Data(itrial).end-Data(itrial).start;
 
@@ -76,7 +76,7 @@ for imuscle = 1:length(Muscle)
     Data(trial).attach(:,:,imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle));
     
     % Gives axis around which the muscle rotate the humerus
-    EffForceDir(:,:,imuscle)=cross(vecDir(:,:,imuscle),parallel(:,3*imuscle-2:3*imuscle));
+    EffForceDir(:,:,imuscle)=cross(Data(trial).vecDir(:,:,imuscle),parallel(:,3*imuscle-2:3*imuscle));
    
     % Get the norm of the vector at each time point. More efficient then
     % using the norm function inside a FOR loop
@@ -100,8 +100,24 @@ MyModel.disownAllComponents();
 
 save([Path.exportPath Alias.sujet{1,isujet} '.mat'],'Data','Alias')
 
-for icondition=1:
-sujet(GroupID).data.data
+for icondition=1:(length(Data)-1)/3
+    for iline=1:length(Data)-1
+        Groupcmp(iline)=sujet(GroupID).data.data(iline).condition==icondition;
+        Subjectcmp(iline)=Data(iline).condition==icondition;
+    end
+    GroupCondlines=find(Groupcmp);
+    SubjectCondlines=find(Subjectcmp);
+    for iline=1:length(GroupCondlines)
+    sujet(GroupID).data.data(GroupCondlines(iline)).d=Data(SubjectCondlines(iline)).d;
+    sujet(GroupID).data.data(GroupCondlines(iline)).dInt=Data(SubjectCondlines(iline)).dInt;
+    sujet(GroupID).data.data(GroupCondlines(iline)).vecDir=Data(SubjectCondlines(iline)).vecDir;
+    sujet(GroupID).data.data(GroupCondlines(iline)).attach=Data(SubjectCondlines(iline)).attach;
+    end
+    clear Groupcmp Subjectcmp
+end
+    
+
+
 
 clear MyModel MyJointSet MyGHJoint GHJoint Data Alias
 end
