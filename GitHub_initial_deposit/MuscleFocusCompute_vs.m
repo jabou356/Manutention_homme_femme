@@ -30,7 +30,7 @@ GenericPath
 %% Nom des sujets
 GroupAlias.sujet = sujets_validesJB(Path.ServerAddressE);
 load([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Jason\data\GroupData\dataEMG.mat']);
-for isujet=2:length(GroupAlias.sujet)
+for isujet=12:length(GroupAlias.sujet)
     Alias=GroupAlias;
     SubjectPath
     name=Alias.sujet{isujet};
@@ -110,11 +110,13 @@ for icondition=1:(length(Data)-1)/3
     end
     GroupCondlines=find(Groupcmp);
     SubjectCondlines=find(Subjectcmp);
+    if length(Data(SubjectCondlines(iline)).vecDir)>0
     for iline=1:length(GroupCondlines)
     sujet(GroupID).data.data(GroupCondlines(iline)).d=Data(SubjectCondlines(iline)).d;
     sujet(GroupID).data.data(GroupCondlines(iline)).dInt=Data(SubjectCondlines(iline)).dInt;
     sujet(GroupID).data.data(GroupCondlines(iline)).vecDir=Data(SubjectCondlines(iline)).vecDir;
     sujet(GroupID).data.data(GroupCondlines(iline)).attach=Data(SubjectCondlines(iline)).attach;
+    end
     end
     clear Groupcmp Subjectcmp
 end
