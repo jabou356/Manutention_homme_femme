@@ -28,9 +28,10 @@ import org.opensim.modeling.*
 GenericPath
 
 %% Nom des sujets
-Alias.sujet = sujets_validesJB(Path.ServerAddressE);
+GroupAlias.sujet = sujets_validesJB(Path.ServerAddressE);
 load([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Jason\data\GroupData\dataEMG.mat']);
-for isujet=2%1:length(Alias.sujet)
+for isujet=2:length(GroupAlias.sujet)
+    Alias=GroupAlias;
     SubjectPath
     name=Alias.sujet{isujet};
     name=name(end-3:end);
@@ -58,8 +59,10 @@ load([Path.exportPath Alias.sujet{1,isujet} '.mat']);
 
 %% Obtenir les onset et offset de force (beginning and end of trial)
 for itrial=1:length(Data)-1
-  
-MVTdurationKine=Data(itrial).end-Data(itrial).start;
+
+startKine=floor(Data(itrial).start);
+stopKine=floor(Data(itrial).end);
+MVTdurationKine=stopKine-startKine;
 
 %% Load muscle path data
 if exist([Path.MDresultpath Data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto'],'file')==2    
@@ -72,11 +75,11 @@ for imuscle = 1:length(Muscle)
     DataColumn(:,imuscle)=find(contains(MuscleAttachment.colheaders,Muscle(imuscle))&contains(MuscleAttachment.colheaders,Body));
     parallel(:,3*imuscle-2:3*imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle))-GHJoint; %Vector parallel to muscle attachment and Origin (lever arm)
     
-    Data(trial).vecDir(:,:,imuscle)=LineOfAction.data(:,DataColumn(:,imuscle));
-    Data(trial).attach(:,:,imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle));
+    Data(itrial).vecDir(:,:,imuscle)=LineOfAction.data(:,DataColumn(:,imuscle));
+    Data(itrial).attach(:,:,imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle));
     
     % Gives axis around which the muscle rotate the humerus
-    EffForceDir(:,:,imuscle)=cross(Data(trial).vecDir(:,:,imuscle),parallel(:,3*imuscle-2:3*imuscle));
+    EffForceDir(:,:,imuscle)=cross(Data(itrial).vecDir(:,:,imuscle),parallel(:,3*imuscle-2:3*imuscle));
    
     % Get the norm of the vector at each time point. More efficient then
     % using the norm function inside a FOR loop
@@ -90,7 +93,7 @@ for imuscle = 1:length(Muscle)
     
 end
 
- Data(itrial).dInt(:,:,:)=interp1(1:MVTdurationKine+1,Data(itrial).d(Data(itrial).start:Data(itrial).end,:,:),1:(MVTdurationKine)/999:MVTdurationKine+1);
+ Data(itrial).dInt(:,:,:)=interp1(1:MVTdurationKine+1,Data(itrial).d(startKine:stopKine,:,:),1:(MVTdurationKine)/999:MVTdurationKine+1);
  
  clear LineOfAction MuscleAttachment EffForceDir verDir parallel temp DataColumn MVTdurationKine
 end
