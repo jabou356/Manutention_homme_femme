@@ -34,7 +34,7 @@ for isujet=2%1:length(Alias.sujet)
     SubjectPath
     
     MyModel=Model([Path.exportPath Alias.sujet{isujet} 'scaledNewMKR.osim']);
-    MyJointSet=GenericModel.getJointSet;
+    MyJointSet=MyModel.getJointSet;
     MyGHJoint=MyJointSet.get('preshoulder1');
     GHJoint=MyGHJoint.getLocation;    GHJoint=[GHJoint.get(0) GHJoint.get(1) GHJoint.get(2)];
     
@@ -53,8 +53,8 @@ MVTdurationKine=Data(itrial).end-Data(itrial).start;
 
 %% Load muscle path data
     
-LineOfAction = importdata([Path.MDresultpath DATA(itrial).trialname '_MuscleForceDirection_vectors.sto']);
-MuscleAttachment = importdata([Path.MDresultpath DATA(itrial).trialname '_MuscleForceDirection_attachments.sto']);
+LineOfAction = importdata([Path.MDresultpath Data(itrial).trialname '_MuscleForceDirection_vectors.sto']);
+MuscleAttachment = importdata([Path.MDresultpath Data(itrial).trialname '_MuscleForceDirection_attachments.sto']);
 
 %% Compute leverArm 
 for imuscle = 1:length(Muscle)
