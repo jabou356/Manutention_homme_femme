@@ -7,15 +7,8 @@ for trial = 1 : length(Data)
         
         %% Filtre passe-bas 15Hz
       for chan=1:size(q,1)
-        NanQ=find(isnan(q(chan,:)));
-        NoNanQ=find(isnan(q(chan,:))==0);
-        if length(NanQ)>0
-            for i=1:length(NanQ)
-                nextvalid=find(NoNanQ>NanQ(i),1,'first');
-        q(chan,NanQ(i))=q(chan,NoNanQ(nextvalid));
-            end
-        end
-      end
+        NanQ=find(isnan(q(i,:)));
+        NoNanQ=find(isnan(q(i,:)));
         q = transpose(lpfilter(q', 15, 100));% vecteur temporel (s)
         
     
