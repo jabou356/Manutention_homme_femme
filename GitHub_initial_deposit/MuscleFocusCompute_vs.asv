@@ -22,7 +22,7 @@ if isempty(strfind(path, 'Z:\Librairies\S2M_Lib\'))
 end
 
 % Fonctions locales
-addpath('Z:\Projet_IRSST_LeverCaisse\Codes\Jason');
+addpath(':\Projet_IRSST_LeverCaisse\Codes\Jason');
 import org.opensim.modeling.*
 
 GenericPath
@@ -30,7 +30,7 @@ GenericPath
 %% Nom des sujets
 GroupAlias.sujet = sujets_validesJB(Path.ServerAddressE);
 % load([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Jason\data\GroupData\dataEMG.mat']);
-for isujet=43:length(GroupAlias.sujet)
+for isujet=12:length(GroupAlias.sujet)
     Alias=GroupAlias;
     SubjectPath
     name=Alias.sujet{isujet};
