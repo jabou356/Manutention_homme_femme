@@ -15,14 +15,14 @@ Muscle={'DELT3','DELT2','DELT1','INFSP','SUPSP', 'SUBSC',...
 
 
 %% Chargement des fonctions
-if isempty(strfind(path, 'Z:\Librairies\S2M_Lib\'))
+if isempty(strfind(path, 'E:\Librairies\S2M_Lib\'))
     % Librairie S2M
-    cd('Z:\Librairies\S2M_Lib\');
+    cd('E:\Librairies\S2M_Lib\');
     S2MLibPicker;
 end
 
 % Fonctions locales
-addpath('Z:\Projet_IRSST_LeverCaisse\Codes\Jason');
+addpath('E:\Projet_IRSST_LeverCaisse\Codes\Jason');
 import org.opensim.modeling.*
 
 GenericPath
@@ -30,19 +30,13 @@ GenericPath
 %% Nom des sujets
 GroupAlias.sujet = sujets_validesJB(Path.ServerAddressE);
 % load([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Jason\data\GroupData\dataEMG.mat']);
-for isujet=43:length(GroupAlias.sujet)
+for isujet=length(GroupAlias.sujet):-1:1
     Alias=GroupAlias;
     SubjectPath
     name=Alias.sujet{isujet};
     name=name(end-3:end);
     
-%     isID=0;
-%     i=0;
-%     while isID==0 
-%     i=i+1;
-%     isID=strcmpi(sujet(i).name,name);
-%     end
-%     GroupID=i;
+
    
     MyModel=Model([Path.exportPath Alias.sujet{isujet} 'scaledNewMKR.osim']);
     MyJointSet=MyModel.getJointSet;
@@ -71,9 +65,16 @@ MuscleAttachment = importdata([Path.MDresultpath Data(itrial).trialname '.mot_Mu
 
 %% Compute leverArm 
 for imuscle = 1:length(Muscle)
-    
-    DataColumn(:,imuscle)=find(contains(MuscleAttachment.colheaders,Muscle(imuscle))&contains(MuscleAttachment.colheaders,Body));
-    parallel(:,3*imuscle-2:3*imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle))-GHJoint; %Vector parallel to muscle attachment and Origin (lever arm)
+    %Contains function does not exist before Matlab 2017a
+   % DataColumn(:,imuscle)=find(contains(MuscleAttachment.colheaders,Muscle(imuscle))&contains(MuscleAttachment.colheaders,Body));
+   for ichan=2:length(MuscleAttachment.colheaders)
+       channame=MuscleAttachment.colheaders{ichan};
+       ismuscle(ichan)=strcmp(channame(1:length(Muscle{imuscle})),Muscle{imuscle});
+       isbody(ichan)=strcmp(channame(end-length(Body{1})+1:end),Body{1});
+        
+   end
+   DataColumn(:,imuscle)=find(ismuscle+isbody==2);
+    parallel(:,3*imuscle-2:3*imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle))-repmat(GHJoint,size(MuscleAttachment.data,1),1); %Vector parallel to muscle attachment and Origin (lever arm)
     
     Data(itrial).vecDir(:,:,imuscle)=LineOfAction.data(:,DataColumn(:,imuscle));
     Data(itrial).attach(:,:,imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle));
@@ -101,28 +102,7 @@ end
 Alias.dIntMuscle=Muscle;
 MyModel.disownAllComponents();
 
-save([Path.exportPath Alias.sujet{1,isujet} '.mat'],'Data','Alias')
-
-% for icondition=1:(length(Data)-1)/3
-%     for iline=1:length(Data)-1
-%         Groupcmp(iline)=sujet(GroupID).data.data(iline).condition==icondition;
-%         Subjectcmp(iline)=Data(iline).condition==icondition;
-%     end
-%     GroupCondlines=find(Groupcmp);
-%     SubjectCondlines=find(Subjectcmp);
-%     if length(Data(SubjectCondlines(iline)).vecDir)>0
-%     for iline=1:length(GroupCondlines)
-%     sujet(GroupID).data.data(GroupCondlines(iline)).d=Data(SubjectCondlines(iline)).d;
-%     sujet(GroupID).data.data(GroupCondlines(iline)).dInt=Data(SubjectCondlines(iline)).dInt;
-%     sujet(GroupID).data.data(GroupCondlines(iline)).vecDir=Data(SubjectCondlines(iline)).vecDir;
-%     sujet(GroupID).data.data(GroupCondlines(iline)).attach=Data(SubjectCondlines(iline)).attach;
-%     end
-%     end
-%     clear Groupcmp Subjectcmp
-% end
-    
-
-
+save(['E:\Projet_IRSST_LeverCaisse\ElaboratedData\matrices\MuscleForceDir\' Alias.sujet{1,isujet} '.mat'],'Data','Alias')
 
 clear MyModel MyJointSet MyGHJoint GHJoint Data Alias
 end
