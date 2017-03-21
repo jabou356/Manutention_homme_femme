@@ -75,11 +75,6 @@ for imuscle = 1:length(Muscle)
         
    end
    DataColumn(:,imuscle)=find(ismuscle+isbody==2);
-   
-   if strcmp(Muscle(imuscle),'DELT2')==1;
-       MuscleAttachment.data(:,DataColumn(:,imuscle))=MuscleAttachmentAnato.data(:,DataColumn(:,imuscle));
-       LineOfAction.data(:,DataColumn(:,imuscle))=LineOfActionAnato.data(:,DataColumn(:,imuscle));
-   end
     parallel(:,3*imuscle-2:3*imuscle)=MuscleAttachment.data(:,DataColumn(:,imuscle))-repmat(GHJoint,size(MuscleAttachment.data,1),1); %Vector parallel to muscle attachment and Origin (lever arm)
     
     Data(itrial).vecDir(:,:,imuscle)=LineOfAction.data(:,DataColumn(:,imuscle));
