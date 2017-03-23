@@ -33,8 +33,9 @@ for isujet=length(Alias.sujet):-1:1
     j=0;
     for imuscle=1:length(emgdata(1).mfEMGchan)
         j=j+1;
-    Data(itrial).numerator(:,:,j)=repmat(emgdata(itrial).normRBIemgInt(:,imuscle),1,3).*kindata(itrial).dInt(:,:,j);
-    Data(itrial).denominator(:,j)=emgdata(itrial).normRBIemgInt(:,imuscle);
+        chan=emgdata(1).mfEMGchan(imuscle);
+    Data(itrial).numerator(:,:,j)=repmat(emgdata(itrial).normRBIemgInt(:,chan),1,3).*kindata(itrial).dInt(:,:,j);
+    Data(itrial).denominator(:,j)=emgdata(itrial).normRBIemgInt(:,chan);
     end
     
     temp=sum(Data(itrial).numerator,3);

@@ -22,9 +22,15 @@ load(['E:\Projet_IRSST_LeverCaisse\ElaboratedData\matrices\MuscleFocus\' Alias.s
     if strcmp(Data(1).sexe,'F')==1
      s=['GroupData.' condname{:,itrial}, '.MFallmuscle(:,ncond,nbF)=Data(itrial).MFallmuscles'];eval(s);
      s=['GroupData.' condname{:,itrial}, '.MFBlache(:,ncond,nbF)=Data(itrial).MFBlache'];eval(s);
+     s=['GroupData.' condname{:,itrial}, '.numerator(:,:,:,ncond,nbF)=Data(itrial).numerator'];eval(s);
+     s=['GroupData.' condname{:,itrial}, '.denominator(:,:,ncond,nbF)=Data(itrial).denominator'];eval(s);
+     
     elseif strcmp(Data(1).sexe,'H')==1
     s=['GroupData.' condname{:,itrial}, '.MFallmuscle(:,ncond,nbH)=Data(itrial).MFallmuscles'];eval(s);
     s=['GroupData.' condname{:,itrial}, '.MFBlache(:,ncond,nbH)=Data(itrial).MFBlache'];eval(s);
+    s=['GroupData.' condname{:,itrial}, '.numerator(:,:,:,ncond,nbH)=Data(itrial).numerator'];eval(s);
+    s=['GroupData.' condname{:,itrial}, '.denominator(:,:,ncond,nbH)=Data(itrial).denominator'];eval(s);
+
     end
     
     end

@@ -173,7 +173,7 @@ SubjectPath
     end
     %clearvars data Data forceindex logical_cells
     
-%     S2M_rbdl_AnimateModel(Alias.model, Data(1).Qdata.Q2)
+    S2M_rbdl_AnimateModel(Alias.model, Data(19).Qdata.Q2)
     
     %Générer un fichier .trc pour Opensim
     if writeopensim == 1
