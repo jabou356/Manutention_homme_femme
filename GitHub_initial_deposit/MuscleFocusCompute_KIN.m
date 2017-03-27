@@ -14,24 +14,20 @@ Muscle={'DELT3','DELT2','DELT1','INFSP','SUPSP', 'SUBSC',...
 param.nbframe = 4000; % number frame needed (interpolation)
 param.GHJntNameOSIM={'preshoulder1'};
 
+%% Interupteurs
+saveresult=0;
 
-%% Chargement des fonctions
-if isempty(strfind(path, 'E:\Librairies\S2M_Lib\'))
-    % Librairie S2M
-    cd('E:\Librairies\S2M_Lib\');
-    S2MLibPicker;
-end
 
-% Fonctions locales
-addpath('E:\Projet_IRSST_LeverCaisse\Codes\Jason');
-import org.opensim.modeling.*
-
+%% Chargement des Path génériques
 GenericPath
+
+%% Chargement des fonctions Opensim 
+import org.opensim.modeling.*
 
 %% Nom des sujets
 Alias.sujet = sujets_validesJB(Path.ServerAddressE);
-% load([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Jason\data\Groupdata\dataEMG.mat']);
-for isujet=length(GroupAlias.sujet):-1:1
+
+for isujet=length(Alias.sujet)%:-1:1
     SubjectPath
     name=Alias.sujet{isujet};
     name=name(end-3:end);
@@ -44,7 +40,8 @@ for isujet=length(GroupAlias.sujet):-1:1
     
     %% Load analyzed data by RM (to get trialname, condition, start and end time, Qs,
     %etc.
-    load([Path.exportPath Alias.sujet{1,isujet} '.mat']);
+    load(Path.importPath);
+    data=temp; clear temp
     
     %% For each trial...
     for itrial=1:length(data)-1
@@ -73,7 +70,14 @@ for isujet=length(GroupAlias.sujet):-1:1
                 %                 dataColumn(:,imuscle)=find(ismuscle+isbody==2); %
                 
                 % find colheader that begins with Muscle(imuscle) and end with Body
-                dataColumn(:,imuscle)=find(regexp(MuscleAttachment.colheaders,[Muscle{imuscle} '\w*' Body{1}]));
+                
+                ischan=regexp(MuscleAttachment.colheaders,[Muscle{imuscle} '\w*' Body{1}]);
+                ichan=1;
+                while isempty(ischan{ichan})
+                    ichan=ichan+1;
+                end
+                
+                dataColumn(:,imuscle)=ichan+(0:2);
                 
                 % for DELT2 use anatomical Attachment as in Blache's code
                 if strcmp(Muscle(imuscle),'DELT2')==1;
@@ -124,8 +128,10 @@ for isujet=length(GroupAlias.sujet):-1:1
     end
 
     MyModel.disownAllComponents();
-    
-    save(['E:\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\' Alias.sujet{1,isujet} '.mat'],'data')
+   
+    if saveresult == 1
+    save([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\' Alias.sujet{1,isujet} '.mat'],'data')
+    end
     
     clear MyModel MyJointSet MyGHJoint GHJoint data Alias
 end
