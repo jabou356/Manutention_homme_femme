@@ -8,8 +8,8 @@
 %     Path.ServerAddressF='F:';
 % end
 
-Path.ServerAddressE=uigetfolder('Go get the E: path');
-Path.ServerAddressF=uigetfolder('Go get the F: path');
+Path.ServerAddressE=uigetdir('C:','Go get the E: path');
+Path.ServerAddressF=uigetdir('C:','Go get the F: path');
 
 if isempty(strfind(path, [Path.ServerAddressE, '\Librairies\S2M_Lib\']))
     % Librairie S2M

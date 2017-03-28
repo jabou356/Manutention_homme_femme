@@ -15,7 +15,7 @@ param.nbframe = 4000; % number frame needed (interpolation)
 param.GHJntNameOSIM={'preshoulder1'};
 
 %% Interupteurs
-saveresult=0;
+saveresult=1;
 
 
 %% Chargement des Path génériques
@@ -27,7 +27,7 @@ import org.opensim.modeling.*
 %% Nom des sujets
 Alias.sujet = sujets_validesJB(Path.ServerAddressE);
 
-for isujet=length(Alias.sujet)%:-1:1
+for isujet=length(Alias.sujet)-1:-1:1
     SubjectPath
     name=Alias.sujet{isujet};
     name=name(end-3:end);
@@ -44,7 +44,8 @@ for isujet=length(Alias.sujet)%:-1:1
     data=temp; clear temp
     
     %% For each trial...
-    for itrial=1:length(data)-1
+    for itrial=1:length(data)
+		disp(['Analysing subject #' num2str(isujet) ': ' name '/ trial #' num2str(itrial)])
         
         %% Load muscle path data
         if exist([Path.MDresultpath data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto'],'file')==2
@@ -57,20 +58,7 @@ for isujet=length(Alias.sujet)%:-1:1
             %% Compute leverArm
             for imuscle = 1:length(Muscle) % for each muscle
                 
-                %Contains function does not exist before Matlab 2017a
-                % dataColumn(:,imuscle)=find(contains(MuscleAttachment.colheaders,Muscle(imuscle))&contains(MuscleAttachment.colheaders,Body));
-                
-                %                 for ichan=2:length(MuscleAttachment.colheaders) %1st chan is Time, ignore it
-                %
-                %                     channame=MuscleAttachment.colheaders{ichan}; % What is the name of ichan
-                %                     ismuscle(ichan)=strcmp(channame(1:length(Muscle{imuscle})),Muscle{imuscle});
-                %                     isbody(ichan)=strcmp(channame(end-length(Body{1})+1:end),Body{1});
-                %
-                % %                 end
-                %                 dataColumn(:,imuscle)=find(ismuscle+isbody==2); %
-                
-                % find colheader that begins with Muscle(imuscle) and end with Body
-                
+                               
                 ischan=regexp(MuscleAttachment.colheaders,[Muscle{imuscle} '\w*' Body{1}]);
                 ichan=1;
                 while isempty(ischan{ichan})
@@ -133,7 +121,7 @@ for isujet=length(Alias.sujet)%:-1:1
     save([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\' Alias.sujet{1,isujet} '.mat'],'data')
     end
     
-    clear MyModel MyJointSet MyGHJoint GHJoint data Alias
+    clear MyModel MyJointSet MyGHJoint GHJoint data 
 end
 %% EMG
 %
