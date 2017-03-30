@@ -4,8 +4,8 @@ clear
 import org.opensim.modeling.*
 
 LocalCoordinate=[1,0,0;0,1,0;0,0,1];
+GenericPath
 
-Path.OpensimSetupJB='\\10.89.24.15\e\Projet_IRSST_LeverCaisse\Jason\OpenSimSetUpFiles\';
 Path.OpensimGenericModel=[Path.OpensimSetupJB,'BOXMODELtoAdapt.osim']
 GenericModel=Model(Path.OpensimGenericModel);
 MyJointSet=GenericModel.getJointSet;
@@ -105,7 +105,7 @@ EPICm_scap = [EPICm_scap.get(0), EPICm_scap.get(1), EPICm_scap.get(2)];
 
 %Build RBDL joint coordinate system in the parent and child segments 
 Yparent = CLAV_AC_scap-mean([EPICl_scap;EPICm_scap]); Yparent = Yparent./norm(Yparent);
-Ychild = CLAV_AC_humerus-mean([EPICl;EPICm]); Yparent = Yparent./norm(Yparent);
+Ychild = CLAV_AC_humerus-mean([EPICl;EPICm]); Ychild = Ychild./norm(Ychild);
 Xparent = cross(EPICl_scap-CLAV_AC_scap,EPICm_scap-CLAV_AC_scap); Xparent = Xparent./norm(Xparent);
 Xchild = cross(EPICl-CLAV_AC_humerus,EPICm-CLAV_AC_humerus); Xchild = Xchild./norm(Xchild);
 Zparent = cross(Xparent,Yparent);
@@ -140,7 +140,7 @@ GHjoint1ID=MyJointSet.getIndex('shoulder0');
 GHjoint1.setLocation(Ochild);
 GHjoint1.setLocationInParent(Ochild);
 GHjoint1.setOrientation(XYZchild);
-GHjoint1.setOrientationInParent(Ochild);
+GHjoint1.setOrientationInParent(XYZchild);
 
 MyJointSet.set(GHjoint1ID,GHjoint1);
 
@@ -149,7 +149,7 @@ GHjoint2ID=MyJointSet.getIndex('shoulder2');
 GHjoint2.setLocation(Ochild);
 GHjoint2.setLocationInParent(Ochild);
 GHjoint2.setOrientation(XYZchild);
-GHjoint2.setOrientationInParent(Ochild);
+GHjoint2.setOrientationInParent(XYZchild);
 
 MyJointSet.set(GHjoint2ID,GHjoint2);
 

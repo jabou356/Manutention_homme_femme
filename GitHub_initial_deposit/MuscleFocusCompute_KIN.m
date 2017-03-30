@@ -22,22 +22,22 @@ saveresult=1;
 GenericPath
 
 %% Chargement des fonctions Opensim 
-import org.opensim.modeling.*
+% import org.opensim.modeling.*
 
 %% Nom des sujets
 Alias.sujet = sujets_validesJB(Path.ServerAddressE);
 
-for isujet=length(Alias.sujet)-1:-1:1
+for isujet=length(Alias.sujet):-1:1
     SubjectPath
     name=Alias.sujet{isujet};
     name=name(end-3:end);
     
     %% Get location of the GH Joint center
-    MyModel=Model([Path.exportPath Alias.sujet{isujet} 'scaledNewMKR.osim']);
-    MyJointSet=MyModel.getJointSet;
-    MyGHJoint=MyJointSet.get(param.GHJntNameOSIM);
-    GHJoint=MyGHJoint.get_location;    GHJoint=[GHJoint.get(0) GHJoint.get(1) GHJoint.get(2)];
-    
+%     MyModel=Model([Path.exportPath Alias.sujet{isujet} 'scaledNewMKR.osim']);
+%     MyJointSet=MyModel.getJointSet;
+%     MyGHJoint=MyJointSet.get(param.GHJntNameOSIM);
+%     GHJoint=MyGHJoint.get_location;    GHJoint=[GHJoint.get(0) GHJoint.get(1) GHJoint.get(2)];
+    GHJoint=[0 0 0];
     %% Load analyzed data by RM (to get trialname, condition, start and end time, Qs,
     %etc.
     load(Path.importPath);
@@ -115,7 +115,7 @@ for isujet=length(Alias.sujet)-1:-1:1
         end
     end
 
-    MyModel.disownAllComponents();
+%    MyModel.disownAllComponents();
    
     if saveresult == 1
     save([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\' Alias.sujet{1,isujet} '.mat'],'data')
