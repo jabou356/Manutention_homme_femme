@@ -6,7 +6,7 @@ import org.opensim.modeling.*
 LocalCoordinate=[1,0,0;0,1,0;0,0,1];
 GenericPath
 
-Path.OpensimGenericModel=[Path.OpensimSetupJB,'BOXMODELtoAdapt.osim']
+Path.OpensimGenericModel=[Path.OpensimSetupJB,'BOXMODELtoAdaptunclampedViapointchanged.osim']
 GenericModel=Model(Path.OpensimGenericModel);
 MyJointSet=GenericModel.getJointSet;
 MyMarkerSet=GenericModel.getMarkerSet;
@@ -154,7 +154,7 @@ GHjoint2.setOrientationInParent(XYZchild);
 MyJointSet.set(GHjoint2ID,GHjoint2);
 
 GenericModel.disownAllComponents();
-GenericModel.print('GenericShoulderCoRAnatoJB.osim');
+GenericModel.print([Path.OpensimSetupJB, 'GenericShoulderCoRAnatoJB.osim']);
 
 clear
 

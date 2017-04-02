@@ -60,15 +60,15 @@ for itrial=1:3:length(trials)-2
 end
 clf
 subplot(3,1,1)
-	plot(nanmean(spmMuscleFocus.NUMERATORdelt(:,trials),2))
+	plot(nanmean(spmMuscleFocus.NUMERATORblache(:,trials),2))
 	hold on
 	
 	subplot(3,1,2)
-		plot(nanmean(spmMuscleFocus.DENOMINATORdelt(:,trials),2))
+		plot(nanmean(spmMuscleFocus.DENOMINATORblache(:,trials),2))
 		hold on
 		
 		subplot(3,1,3)
-			plot(nanmean(spmMuscleFocus.MUSCLEFOCUSdelt(:,trials),2))
+			plot(nanmean(spmMuscleFocus.MUSCLEFOCUSblache(:,trials),2))
 			hold on
 			title(num2str(itrial))
 			waitforbuttonpress
