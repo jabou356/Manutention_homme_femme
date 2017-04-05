@@ -86,10 +86,10 @@ for isujet=length(Alias.sujet):-1:1
                 % Joint rotation center (lever arm)              
                % parallel = data(itrial).attach(:,:,imuscle)-data(itrial).GHjrc(:,:); 
 			   
-		    
-        [parallel maDistance]= projPointOrth(data(itrial).attach(:,:,imuscle),...
-                                               data(itrial).vecDir(:,:,imuscle),...
-                                              zeros(length(data(itrial).vecDir(:,:,imuscle)),3)); 
+			    for i = 1:size(indChildrenSeg{s},1)/3
+%         [MaDirection{s}{i} maDistance{s}{i}]= projPointOrth(pointAttachEffCut{s}(:,3*i-2:3*i),...
+%                                               forceDirEffCut{s}(:,3*i-2:3*i),...
+%                                               zeros(length(forceDirEffCut{s}),3)); 
                 
                 % Compute the effective force dir (Joint axis around which
                 % muscle has an action)
@@ -123,7 +123,7 @@ for isujet=length(Alias.sujet):-1:1
 %    MyModel.disownAllComponents();
    
     if saveresult == 1
-    save([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\GenModel\ProjOrth\' Alias.sujet{1,isujet} '.mat'],'data')
+    save([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\GenModel\' Alias.sujet{1,isujet} '.mat'],'data')
     end
     
     clear MyModel MyJointSet MyGHJoint GHJoint data 
