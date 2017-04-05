@@ -23,7 +23,7 @@ export      =   1;   % o ou 1
 
 %% Path
 path.Datapath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\matrices\MuscleForceDir\'];
-path.exportpath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\'];
+path.exportpath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\GenModel\'];
 alias.matname = dir([path.Datapath '*mat']);
 
 %% load data
@@ -56,12 +56,12 @@ if useoldMuscleDir == 0
 	end
 	
 	if export==1
-		save('\\10.89.24.15\e\Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\bigstructMuscleDir.mat','bigstruct')
+		save([path.exportpath 'bigstructMuscleDir.mat'],'bigstruct')
 	end
 	
 else
 	disp('Loading, please wait.')
-	load('\\10.89.24.15\e\Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\bigstructMuscleDir.mat')
+	load([path.exportpath 'bigstructMuscleDir.mat'])
 end
 
 bigstruct = [bigstruct.data];
@@ -80,7 +80,7 @@ for i=1:length(bigstruct)
 end
 	if export==1
 
-save('\\10.89.24.15\e\Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\spmMuscleDir.mat','spm')
+save([path.exportpath 'spmMuscleDir.mat'],'spm')
 
 	end
 

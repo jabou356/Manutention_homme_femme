@@ -10,7 +10,7 @@ clear all; clc;
 % action of muscles best matching the position of the electrodes
 Body={'humerus'};
 Muscle={'DELT3','DELT2','DELT1','INFSP','SUPSP', 'SUBSC',...
-    'LAT1','PECM3' };
+    'LAT1','PECM1' };
 param.nbframe = 4000; % number frame needed (interpolation)
 param.GHJntNameOSIM={'preshoulder1'};
 
@@ -50,13 +50,13 @@ for isujet=length(Alias.sujet):-1:1
         %% Load muscle path data
         if exist([Path.MDresultpath data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto'],'file')==2
             
-            LineOfAction = importdata([Path.MDresultpath data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto']);
-            MuscleAttachment = importdata([Path.MDresultpath data(itrial).trialname '.mot_MuscleForceDirection_attachments.sto']);
-            MuscleAttachmentAnato = importdata([Path.MDpath 'Anato\result\' data(itrial).trialname '.mot_MuscleForceDirection_attachments.sto']);
-            LineOfActionAnato = importdata([Path.MDpath 'Anato\result\' data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto']);
+            LineOfAction = importdata([Path.MDpath 'GenModel\result\' data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto']);
+            MuscleAttachment = importdata([Path.MDpath 'GenModel\result\' data(itrial).trialname '.mot_MuscleForceDirection_attachments.sto']);
+            MuscleAttachmentAnato = importdata([Path.MDpath 'GenModel\Anato\result\' data(itrial).trialname '.mot_MuscleForceDirection_attachments.sto']);
+            LineOfActionAnato = importdata([Path.MDpath 'GenModel\Anato\result\' data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto']);
             
             %% Compute leverArm
-            for imuscle = 1:length(Muscle) % for each muscle
+            for imuscle = length(Muscle):-1:1 % for each muscle
                 
                                
                 ischan=regexp(MuscleAttachment.colheaders,[Muscle{imuscle} '\w*' Body{1}]);
@@ -67,7 +67,7 @@ for isujet=length(Alias.sujet):-1:1
                 
                 dataColumn(:,imuscle)=ichan+(0:2);
                 
-                % for DELT2 use anatomical Attachment as in Blache's code
+                %for DELT2 use anatomical Attachment as in Blache's code
                 if strcmp(Muscle(imuscle),'DELT2')==1;
                     
                     MuscleAttachment.data(:,dataColumn(:,imuscle))=MuscleAttachmentAnato.data(:,dataColumn(:,imuscle));
@@ -118,7 +118,7 @@ for isujet=length(Alias.sujet):-1:1
 %    MyModel.disownAllComponents();
    
     if saveresult == 1
-    save([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\' Alias.sujet{1,isujet} '.mat'],'data')
+    save([Path.ServerAddressE '\Projet_IRSST_LeverCaisse\Elaborateddata\matrices\MuscleForceDir\GenModel\' Alias.sujet{1,isujet} '.mat'],'data')
     end
     
     clear MyModel MyJointSet MyGHJoint GHJoint data 
