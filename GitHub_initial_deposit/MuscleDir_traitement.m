@@ -22,7 +22,7 @@ useoldMuscleDir   =   0;   % 0 ou 1
 export      =   1;   % o ou 1
 
 %% Path
-path.Datapath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\matrices\MuscleForceDir\'];
+path.Datapath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\matrices\MuscleForceDir\GenModel\'];
 path.exportpath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\GenModel\'];
 alias.matname = dir([path.Datapath '*mat']);
 
