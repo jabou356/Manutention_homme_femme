@@ -154,7 +154,7 @@ GHjoint2.setOrientationInParent(XYZchild);
 MyJointSet.set(GHjoint2ID,GHjoint2);
 
 GenericModel.disownAllComponents();
-%GenericModel.print([Path.OpensimSetupJB, 'GenericShoulderCoRAnatoJB.osim']);
+GenericModel.print([Path.OpensimSetupJB, 'GenericShoulderCoRAnatoJB.osim']);
 
 clear
 

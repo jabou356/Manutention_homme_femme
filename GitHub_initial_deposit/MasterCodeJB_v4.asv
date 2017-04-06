@@ -43,13 +43,13 @@ clear ; close all; clc
 % Path.OpensimGenericMD=[Path.OpensimSetupJB,'Conf_MD.xml'];
 GenericPath
 %% Interrupteurs
-saveresults = 0;
+saveresults = 1;
 writeopensim = 1;
 
 %% Nom des sujets
 Alias.sujet = sujets_validesJB(Path.ServerAddressE);
 
-for isujet = length(Alias.sujet)-5 : -1 : 1
+for isujet = length(Alias.sujet) : -1 : length(Alias.sujet)-4
     
     disp(['Traitement de ' cell2mat(Alias.sujet(isujet)) ' (' num2str(length(Alias.sujet) - isujet+1) ' sur ' num2str(length(Alias.sujet)) ')'])
 %     %% Chemin des fichiers
@@ -182,7 +182,7 @@ Path.IKpath=[Path.exportPath,'IKOSIM\'];
     end
     %clearvars data Data forceindex logical_cells
     
-%     S2M_rbdl_AnimateModel(Alias.model, Data(19).Qdata.Q2)
+    S2M_rbdl_AnimateModel(Alias.model, Data(19).Qdata.Q2)
     
     %Générer un fichier .trc pour Opensim
     if writeopensim == 1

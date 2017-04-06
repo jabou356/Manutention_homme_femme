@@ -6,6 +6,16 @@ for trial = 1 : length(Data)
     q = Data(trial).Qdata.Q2;
         
         %% Filtre passe-bas 15Hz
+      for chan=1:size(q,1)
+        NanQ=find(isnan(q(chan,:)));
+        NoNanQ=find(isnan(q(chan,:))==0);
+        if length(NanQ)>0
+            for i=1:length(NanQ)
+                nextvalid=find(NoNanQ>NanQ(i),1,'first');
+        q(chan,NanQ(i))=q(chan,NoNanQ(nextvalid));
+            end
+        end
+      end
         q = transpose(lpfilter(q', 15, 100));% vecteur temporel (s)
         
     
@@ -26,17 +36,17 @@ OpenSimDoFname={'Th_rotX', 'Th_rotY', 'Th_rotZ', 'Th_transX', 'Th_transY', 'Th_t
 dataOrder=[10 11 12 7 8 9 13:18 22:28];
 
 
-for i=dataOrder([1:3 7:length(dataOrder)])
-    a=find(q(i,:)>pi);
-    b=find(q(i,:)<-pi);
-    
-    while length(a)+length(b)>0
-        if length(a)>0; q(i,a)=q(i,a)-2*pi; end
-if length(b)>0; q(i,b)=q(i,b)+2*pi; end
-    a=find(q(i,:)>pi);
-    b=find(q(i,:)<-pi);
-    end
-end
+% for i=dataOrder([1:3 7:length(dataOrder)])
+%     a=find(q(i,:)>pi);
+%     b=find(q(i,:)<-pi);
+%     
+%     while length(a)+length(b)>0
+%         if length(a)>0; q(i,a)=q(i,a)-2*pi; end
+% if length(b)>0; q(i,b)=q(i,b)+2*pi; end
+%     a=find(q(i,:)>pi);
+%     b=find(q(i,:)<-pi);
+%     end
+% end
     
     Data(trial).motmat    = [Data(trial).time ; q(dataOrder,:)]';
 Data(trial).motmat(:,[2:4 8:end])=Data(trial).motmat(:,[2:4 8:end])*180/pi; %Rad 2 degrees for joint angles

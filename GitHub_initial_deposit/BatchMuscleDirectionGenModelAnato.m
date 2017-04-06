@@ -29,7 +29,17 @@ for isujet = length(Alias.sujet)   : -1 : 1
 %     %% Chemin des fichiers
 SubjectPath
    
+ Path.OpensimGenericMD=[Path.OpensimSetupJB,'Conf_MDAnato.xml'];
+
+Path.MDpath=[Path.exportPath,'MuscleDirection\GenModel\Anato'];
+    Path.MDresultpath=[Path.MDpath,'\result\'];
+    Path.MDsetuppath=[Path.MDpath,'\setup\'];
+    if isdir(Path.MDpath)==0
+        mkdir(Path.MDpath);
+        mkdir(Path.MDresultpath);
+        mkdir(Path.MDsetuppath);
+    end
    
-    setupAndRunMuscleDirection
+    setupAndRunMuscleDirectionGenModel
    
 end
