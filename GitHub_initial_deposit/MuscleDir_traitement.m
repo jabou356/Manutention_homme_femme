@@ -6,7 +6,7 @@
 %   email:   martinez.staps@gmail.com
 %   Website: https://github.com/romainmartinez
 %_____________________________________________________________________________
-clear variables; close all; clc
+clear ; close all; clc
 %% load functions
 if isempty(strfind(path, '\\10.89.24.15\e\Librairies\S2M_Lib\'))
 	% S2M library
@@ -22,8 +22,8 @@ useoldMuscleDir   =   0;   % 0 ou 1
 export      =   1;   % o ou 1
 
 %% Path
-path.Datapath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\matrices\MuscleForceDir\GenModel\'];
-path.exportpath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\GenModel\'];
+path.Datapath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\matrices\MuscleForceDir\GenModel\ProjOrth\'];
+path.exportpath = [Path.ServerAddressE, 'Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\MuscleDir\GenModel_noCoR_ProjOrth\'];
 alias.matname = dir([path.Datapath '*mat']);
 
 %% load data
@@ -69,18 +69,22 @@ spm.time  = linspace(0,100,4000);
 
 for i=1:length(bigstruct)
 	disp(['Now treating i=' num2str(i)])
-	spm.sex(8*i-7:8*i) = deal(bigstruct(i).sex)';
-	spm.name{8*i-7} = deal(bigstruct(i).name)';
-	spm.height(8*i-7:8*i) = deal(bigstruct(i).hauteur)';
-	spm.weight(8*i-7:8*i) = deal(bigstruct(i).poids)';
-	spm.nsubject(8*i-7:8*i) = deal(bigstruct(i).nsujet)';
-	spm.dIntmuscle(8*i-7:8*i) = [bigstruct(i).dIntMuscle];
-	spm.imuscle(8*i-7:8*i) = 1:8;
-	spm.dInt(:,:,8*i-7:8*i) = bigstruct(i).dInt;
+	spmMuscleDir.sex(8*i-7:8*i) = deal(bigstruct(i).sex)';
+	spmMuscleDir.height(8*i-7:8*i) = deal(bigstruct(i).hauteur)';
+	spmMuscleDir.weight(8*i-7:8*i) = deal(bigstruct(i).poids)';
+	spmMuscleDir.nsubject(8*i-7:8*i) = deal(bigstruct(i).nsujet)';
+	spmMuscleDir.dIntmuscle(8*i-7:8*i) = [bigstruct(i).dIntMuscle];
+	spmMuscleDir.imuscle(8*i-7:8*i) = 1:8;
+	spmMuscleDir.dInt(:,:,8*i-7:8*i) = bigstruct(i).dInt;
+	
+	for j=8*i-7:8*i
+	spmMuscleDir.name{j} = deal(bigstruct(i).name);
+	spmMuscleDir.trialname{j} = bigstruct(i).trialname;
+	end
 end
 	if export==1
 
-save([path.exportpath 'spmMuscleDir.mat'],'spm')
+save([path.exportpath 'spmMuscleDir.mat'],'spmMuscleDir')
 
 	end
 

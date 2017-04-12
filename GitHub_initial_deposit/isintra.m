@@ -18,9 +18,9 @@ sujet = [sujet; find(spm.nsubject == blacklist.idx(i))];
 end
 
 for iIntra = 9:11
-    current = spm.emg(iIntra:13:end,:);
-    current(sujet,:) = NaN;
-    spm.emg(iIntra:13:end,:) = current;
+    current = spm.emg(:,iIntra:13:end);
+    current(:,sujet) = NaN;
+    spm.emg(:,iIntra:13:end) = current;
 end
 
 % 1. trouve les index des sujets blacklister

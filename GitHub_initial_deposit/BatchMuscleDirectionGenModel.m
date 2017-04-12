@@ -29,7 +29,15 @@ for isujet = length(Alias.sujet)   : -1 : 1
 %     %% Chemin des fichiers
 SubjectPath
    
- 
+Path.IKpath=[Path.exportPath,'IKOSIM\'];
+    Path.IKresultpath=[Path.IKpath,'result\'];
+    Path.IKsetuppath=[Path.IKpath,'setup\'];
+    if isdir(Path.IKpath)==0
+        mkdir(Path.IKpath);
+        mkdir(Path.IKresultpath);
+        mkdir(Path.IKsetuppath);
+    end
+
 Path.MDpath=[Path.exportPath,'MuscleDirection\GenModel'];
     Path.MDresultpath=[Path.MDpath,'\result\'];
     Path.MDsetuppath=[Path.MDpath,'\setup\'];

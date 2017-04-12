@@ -45,16 +45,31 @@ if useoldemg == 0
     end
     
 bigstruct = [bigstruct.raw];
-spm.sex = [bigstruct.sex]';
-spm.height = [bigstruct.hauteur]';
-spm.weight = [bigstruct.poids]';
-spm.nsubject = [bigstruct.nsujet]';
-spm.time  = linspace(0,100,4000);
-spm.muscle = repmat(1:13,1,length(bigstruct))';
-spm.emg = [bigstruct.emg]';
+% spmEMG.sex = [bigstruct.sex]';
+% spmEMG.height = [bigstruct.hauteur]';
+% spmEMG.weight = [bigstruct.poids]';
+% spmEMG.nsubject = [bigstruct.nsujet]';
+% spmEMG.time  = linspace(0,100,4000);
+% spmEMG.muscle = repmat(1:13,1,length(bigstruct))';
+% spmEMG.emg = [bigstruct.emg]';
+
+for i=1:length(bigstruct)
+	disp(['Now treating i=' num2str(i)])
+	spmEMG.sex(13*i-12:13*i) = deal(bigstruct(i).sex)';
+	spmEMG.height(13*i-12:13*i) = deal(bigstruct(i).hauteur)';
+	spmEMG.weight(13*i-12:13*i) = deal(bigstruct(i).poids)';
+	spmEMG.nsubject(13*i-12:13*i) = deal(bigstruct(i).nsujet)';
+	spmEMG.emg(:,13*i-12:13*i) = bigstruct(i).emg;
+	spmEMG.imuscle(13*i-12:13*i) = 1:13;
+		
+	for j=13*i-12:13*i
+	spmEMG.name{j} = deal(bigstruct(i).name);
+	spmEMG.trialname{j} = bigstruct(i).trialname;
+	end
+end
 
 
-    spm = isintra(bigstruct,spm); % NaN on intra muscles for participants without intra
+    spmEMG = isintraJB(spmEMG); % NaN on intra muscles for participants without intra
 
     for imuscle = 13:-1:1
     spm.comp = spm.emg(spm.muscle == imuscle,:); % by muscle
@@ -85,10 +100,9 @@ spm.emg = [bigstruct.emg]';
 %     [result(imuscle).anova,result(imuscle).interaction,result(imuscle).mainA,result(imuscle).mainB] = ...
 %         SPM_EMG(spm.comp',spm.sex,spm.height,spm.nsubject,imuscle,spm.time,correctbonf);
 end
-    save('\\10.89.24.15\e\Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\bigstructEMG.mat','spm')
+    save('\\10.89.24.15\e\Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\EMG\spmEMG.mat','spmEMG')
 else
     disp('Loading, please wait.')
     load('\\10.89.24.15\e\Projet_IRSST_LeverCaisse\ElaboratedData\MuscleFocus\GroupData\bigstructEMG.mat')
 end
 
-ù

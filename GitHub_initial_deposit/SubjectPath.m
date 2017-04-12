@@ -19,7 +19,7 @@
         mkdir(Path.TRCpath);
     end
     
-    Path.IKpath=[Path.exportPath,'IK\'];
+    Path.IKpath=[Path.exportPath,'IKOSIM\'];
     Path.IKresultpath=[Path.IKpath,'result\'];
     Path.IKsetuppath=[Path.IKpath,'setup\'];
     if isdir(Path.IKpath)==0

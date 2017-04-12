@@ -48,7 +48,6 @@ for isujet=length(Alias.sujet):-1:1
 		disp(['Analysing subject #' num2str(isujet) ': ' name '/ trial #' num2str(itrial)])
         
         %% Load muscle path data
-        if exist([Path.MDresultpath data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto'],'file')==2
             
             LineOfAction = importdata([Path.MDpath 'GenModel\result\' data(itrial).trialname '.mot_MuscleForceDirection_vectors.sto']);
             MuscleAttachment = importdata([Path.MDpath 'GenModel\result\' data(itrial).trialname '.mot_MuscleForceDirection_attachments.sto']);
@@ -118,7 +117,7 @@ for isujet=length(Alias.sujet):-1:1
             
             clear LineOfAction MuscleAttachment EffForceDir verDir parallel temp dataColumn MVTdurationKine
         end
-    end
+    
 
 %    MyModel.disownAllComponents();
    
