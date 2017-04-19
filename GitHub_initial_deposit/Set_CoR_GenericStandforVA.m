@@ -6,7 +6,7 @@ import org.opensim.modeling.*
 LocalCoordinate=[1,0,0;0,1,0;0,0,1];
 GenericPath
 
-Path.OpensimGenericModel=[Path.OpensimSetupJB,'BOXMODELtoAdaptunclampedViapointchanged.osim']
+Path.OpensimGenericModel=[Path.OpensimSetupJB,'NoConstrainStandfordVAtoAdapt.osim']
 GenericModel=Model(Path.OpensimGenericModel);
 MyJointSet=GenericModel.getJointSet;
 MyMarkerSet=GenericModel.getMarkerSet;
@@ -126,8 +126,8 @@ XYZparent=Vec3(XYZparent(1),XYZparent(2),XYZparent(3));
 XYZchild=AnglCardan(Rchild');
 XYZchild=Vec3(XYZchild(1),XYZchild(2),XYZchild(3));
 
-GHjoint0=MyJointSet.get('preshoulder1');
-GHjoint0ID=MyJointSet.getIndex('preshoulder1');
+GHjoint0=MyJointSet.get('shoulder0');
+GHjoint0ID=MyJointSet.getIndex('shoulder0');
 GHjoint0.setLocation(Ochild);
 GHjoint0.setLocationInParent(Oparent);
 GHjoint0.setOrientation(XYZchild);
@@ -135,8 +135,8 @@ GHjoint0.setOrientationInParent(XYZparent);
 
 MyJointSet.set(GHjoint0ID,GHjoint0);
 
-GHjoint1=MyJointSet.get('shoulder0');
-GHjoint1ID=MyJointSet.getIndex('shoulder0');
+GHjoint1=MyJointSet.get('shoulder1');
+GHjoint1ID=MyJointSet.getIndex('shoulder1');
 GHjoint1.setLocation(Ochild);
 GHjoint1.setLocationInParent(Ochild);
 GHjoint1.setOrientation(XYZchild);
@@ -154,7 +154,7 @@ GHjoint2.setOrientationInParent(XYZchild);
 MyJointSet.set(GHjoint2ID,GHjoint2);
 
 GenericModel.disownAllComponents();
-GenericModel.print([Path.OpensimSetupJB, 'GenericShoulderCoRAnatoJB.osim']);
+GenericModel.print([Path.OpensimSetupJB, 'StandfordVACoRAnatoJB.osim']);
 
 clear
 
